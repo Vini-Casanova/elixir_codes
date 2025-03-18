@@ -4,7 +4,7 @@ defmodule BananaBank.Users.User do
 
   alias Ecto.Changeset
 
-  @required_params [:name, :password_hash, :email, :cep]
+  @required_params [:name, :password, :email, :cep]
 
   schema "users" do
     field :name, :string
@@ -27,17 +27,9 @@ defmodule BananaBank.Users.User do
     |> add_hashed_password()
   end
 
-  defp add_hashed_password(%Changeset{data: user, changes: %{password: password}} = changeset) do
-    # change(changeset, password_hash: Argon2.hash_password(password))
-    IO.inspect(Argon2.hash_password(password))
-    IO.puts("Password: #{Argon2.hash_password(password)}")
+  defp add_hashed_password(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, password_hash: Argon2.hash_pwd_salt(password))
   end
 
-  # defp add_hashed_password(changeset), do: changeset
-
-  defp add_hashed_password(changeset) do
-    # change(changeset, password_hash: Argon2.hash_password(password))
-    IO.inspect(Argon2.hash_password("2123123123"))
-    IO.puts("Password: #{Argon2.hash_password("1213123123123")}")
-  end
+  defp add_hashed_password(changeset), do: changeset
 end
