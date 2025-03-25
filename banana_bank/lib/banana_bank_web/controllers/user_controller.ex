@@ -23,5 +23,13 @@ defmodule BananaBankWeb.UserController do
 
   end
 
+  def update(conn, params) do
+    with {:ok, %User{} = user} <- Users.update_user(params)  do
+      conn
+      |> put_status(:ok)
+      |> render(:update, user: user)
+    end
+  end
+
 
 end
