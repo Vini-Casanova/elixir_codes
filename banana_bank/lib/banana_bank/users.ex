@@ -1,6 +1,6 @@
 defmodule BananaBank.Users do
+  alias BananaBank.Users.Delete
   alias BananaBank.Users.Create
-  alias BananaBank.Users.User
   alias BananaBank.Users.Get
   alias BananaBank.Users.Update
 
@@ -10,4 +10,5 @@ defmodule BananaBank.Users do
 
   defdelegate update_user(params), to: Update, as: :call
 
+  defdelegate delete_user(id), to: Delete, as: :call
 end
